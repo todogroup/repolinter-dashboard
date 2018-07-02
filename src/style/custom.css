@@ -1,0 +1,53 @@
+.center {
+  text-align: center;
+}
+
+.container.padding-top {
+    padding-top: 2%;
+}
+
+.padding-sides{
+	padding-left: 5%;
+	padding-right: 5%;
+}
+
+.padding-top{
+	padding-top: 1%;
+}
+
+.center-div {
+    margin: 10%;
+    width: 50%;
+    padding-top: 20%;
+}
+
+.li-font{
+	font-size: 12px;
+}
+
+.green{
+	color: #97CD34; 
+}
+
+.yellow{
+	color: #FFD036;
+}
+
+.hr{
+   background-color:#C80000;
+   color:#C80000;
+   -webkit-transform:rotate(90deg);
+   position:absolute;
+   left:130px;
+   border:2px;
+ }
+
+ .line {
+    position: absolute;
+    left: 49%;
+    top: 0;
+    bottom: 0;
+    width: 1px;
+    background: #ccc;
+    z-index: 1;
+}
