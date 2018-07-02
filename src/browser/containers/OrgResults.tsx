@@ -32,10 +32,10 @@ public componentWillMount(){
 }
 
 public getProcessedList(orgList:object[]) {
-  return orgList.map(object => {
+  return orgList.map((obj:any) => {
 	return {
-	  label: object.org_name,
-	  value: object.org_name
+	  label: obj.org_name,
+	  value: obj.org_name
 	  };
     });
 }
