@@ -1,0 +1,67 @@
+AWSTemplateFormatVersion : '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: Serverless function mapping/config
+
+Resources:
+  getOrgResultFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: app.getOrgResult
+      Runtime: nodejs8.10
+      CodeUri: serverless/getResults/
+      Policies: PostgresReadOnly
+      Events:
+        GetResource:
+          Type: Api
+          Properties:
+            Path: /orgresult/{org_name}
+            Method: get
+
+  getOrgFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: app.getOrgList
+      Runtime: nodejs8.10
+      CodeUri: serverless/getResults/
+      Policies: PostgresReadOnly
+      Events:
+        GetResource:
+          Type: Api
+          Properties:
+            Path: /orglist
+            Method: get
+
+  getJsonSchemaFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: app.getJsonSchema
+      Runtime: nodejs8.10
+      CodeUri: serverless/getResults/
+      Policies: PostgresReadOnly
+      Events:
+        GetResource:
+          Type: Api
+          Properties:
+            Path: /jsonSchema
+            Method: get
+
+  getScanResult:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: app.lintRepo
+      Runtime: nodejs8.10
+      CodeUri: serverless/getRepolinterResult/
+      MemorySize: 2048
+      Timeout: 150
+      Events:
+        GetResource:
+          Type: Api
+          Properties:
+            Path: /scan/{object}
+            Method: get
+            parameters:
+              paths:
+                object: true
+
+
+            

@@ -1,0 +1,11 @@
+{ 
+  "axioms": {
+    "linguist":"language",
+    "licensee":"license"
+  },
+  "rules": {
+    "all": {
+      "license-detectable-by-licensee": ["info"]
+    }
+  }
+}
