@@ -1,10 +1,11 @@
-import 'brace/mode/json';
-import 'brace/theme/monokai';
 import * as React from 'react';
 import AceEditor from 'react-ace';
 import { reqJSON } from '../../utils/fetcher';
 
 import ResultViewer from '../components/resultviewer';
+
+import 'brace/mode/json';
+import 'brace/theme/monokai';
 
 interface Props{
 }
