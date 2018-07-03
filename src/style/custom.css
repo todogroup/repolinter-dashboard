@@ -51,3 +51,14 @@
     background: #ccc;
     z-index: 1;
 }
+
+.fancy {
+  font-weight: 400;
+  font-style: oblique;
+  margin-top: 10px;
+  margin-bottom: 15px;
+}
+
+.flex{
+  flex: auto;
+}

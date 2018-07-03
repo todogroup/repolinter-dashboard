@@ -10,7 +10,6 @@ interface State{
   spinnerColor: string
 }
 
-
 export default class ResultViewer extends React.Component<Props, State> {
   constructor(props:any) {
     super(props);
@@ -20,7 +19,6 @@ export default class ResultViewer extends React.Component<Props, State> {
     }
   }
   
-
   public getFaIcon(status:boolean){
     if(status){
        return <i className="fa fa-thumbs-o-up green" aria-hidden="true"><strong>Passed</strong></i>;
@@ -58,7 +56,6 @@ export default class ResultViewer extends React.Component<Props, State> {
   	return new Promise(resolve => setTimeout(resolve, ms));
   }
 
-
   public async color(){
   	await this.wait(1000);
   	if(this.state.spinnerColor ==='' || this.state.spinnerColor ==='#FFD036'){
@@ -85,8 +82,7 @@ export default class ResultViewer extends React.Component<Props, State> {
           size={32}
         />
       </div>);
-    }
-  	
+    } 	
   }
 
   public render() {
