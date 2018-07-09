@@ -60,7 +60,7 @@ public handleOrgChange = (e:any) =>{
 
 public render(){
  return(
-	<div className="container padding-top">
+	<div id="orgResults" className="container padding-top">
 	<Select
 		id="state-select"
         placeholder="Select Organisation"
