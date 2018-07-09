@@ -63,5 +63,41 @@ Resources:
               paths:
                 object: true
 
+  addOrg:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: app.addNewOrg
+      Runtime: nodejs8.10
+      CodeUri: serverless/githubUtils/
+      MemorySize: 2048
+      Timeout: 150
+      Events:
+        GetResource:
+          Type: Api
+          Properties:
+            Path: /addorg/{org}
+            Method: get
+            parameters:
+              paths:
+                object: true
+
+  removeOrg:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: app.removeExistingOrg
+      Runtime: nodejs8.10
+      CodeUri: serverless/githubUtils/
+      Events:
+        GetResource:
+          Type: Api
+          Properties:
+            Path: /removeorg/{org}
+            Method: get
+            parameters:
+              paths:
+                object: true
+
+
+
 
             
