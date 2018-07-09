@@ -18,7 +18,6 @@ export default class Admin extends React.Component<Props, State> {
 		orgs: [],
 		removeOrg: '',
 		addOrg:''
-
 	};
   }
 
@@ -30,7 +29,6 @@ public componentWillMount(){
 }
 
 handleRemoveOrg=(e:any)=>{
-	console.log(e);
 	this.setState({
 		removeOrg: e.value
 	})
@@ -42,6 +40,14 @@ handleAddOrg=(e:any)=>{
 	})
 }
 
+handleRemoveRequest=()=>{
+ //reqJSON('http://127.0.0.1:3000/removeorg/'+ this.state.removeOrg);
+}
+
+handleAddRequest=()=>{
+ reqJSON('http://127.0.0.1:3000/addorg/'+ this.state.addOrg);
+}
+
 public render(){
  return(
 	<div className="container padding-top">
@@ -49,14 +55,14 @@ public render(){
 	<div className="input-group mb-5">
   	<input type="text" className="form-control" placeholder="Org Url" onChange={this.handleAddOrg} required={true}/>
   	<div className="input-group-append">
-    <button className="btn btn-outline-secondary" type="button">Submit</button>
+    <button className="btn btn-outline-secondary" type="button" onClick={this.handleAddRequest}>Submit</button>
   	</div>
 	</div>
 	<p className="fancy">Remove org</p>
 	<div className="input-group mb-5">
 	<Select
 		id="state-select"
-        placeholder="Select Contributor"
+        placeholder="Select Org"
         options={this.state.orgs.map((obj:any) => {return {label: obj.org_name,value: obj.org_name}})}
         required={true}
         value={this.state.removeOrg}
@@ -67,7 +73,7 @@ public render(){
         className="flex"
 	/>
 	<div className="input-group-append">
-    <button className="btn btn-outline-secondary" type="button">Remove</button>
+    <button className="btn btn-outline-secondary" type="button" onClick={this.handleRemoveRequest}>Remove</button>
   	</div>
 	</div> 
  	</div>

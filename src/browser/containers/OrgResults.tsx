@@ -63,7 +63,7 @@ public render(){
 	<div className="container padding-top">
 	<Select
 		id="state-select"
-        placeholder="Select Contributor"
+        placeholder="Select Organisation"
         options={this.getProcessedList(this.state.orgs)}
         onChange={this.handleOrgChange}
         required={true}
