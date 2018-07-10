@@ -97,7 +97,20 @@ Resources:
               paths:
                 object: true
 
-
-
-
-            
+  orgHooks:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: app.webhookHandler
+      Runtime: nodejs8.10
+      CodeUri: serverless/githubUtils/
+      MemorySize: 2048
+      Timeout: 150
+      Events:
+        GetResource:
+          Type: Api
+          Properties:
+            Path: /hooks
+            Method: post
+            parameters:
+              paths:
+                object: true
