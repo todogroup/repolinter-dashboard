@@ -2,7 +2,7 @@ import * as React from 'react';
 import { Link, Route, Router, Switch } from 'react-router-dom';
 import history from './history';
 import logo from './logo.png';
-import './style/App.css';
+import '../node_modules/bootstrap/dist/css/bootstrap.css';
 import './style/custom.css';
 
 
