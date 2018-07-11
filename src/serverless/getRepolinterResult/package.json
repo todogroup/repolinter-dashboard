@@ -1,0 +1,22 @@
+{
+  "name": "getrepolinterresults",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "abhaydee",
+  "license": "Apache-2.0",
+  "dependencies": {
+    "@octokit/rest": "^15.9.4",
+    "dotenv": "^6.0.0",
+    "path": "^0.12.7",
+    "pg-promise": "^8.4.5",
+    "repolinter": "github:todogroup/repolinter",
+    "rimraf": "^2.6.2",
+    "simple-git": "^1.96.0",
+    "uuid": "^3.3.2",
+    "uuid-v4": "^0.1.0"
+  }
+}
