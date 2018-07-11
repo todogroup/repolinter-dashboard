@@ -22,8 +22,8 @@ async function paginateAndInsert (method, org) {
     const results = await repolinter.lintRepo(element.clone_url);
     // add all the repos to the repo-database
     await db.postData(element.owner.login, element.id, element.name, element.full_name, element.owner, element.collaborators_url, element.teams_url,
-    element.created_at, element.updated_at, element.git_url, element.ssh_url, element.clone_url, element.language, element.watchers_count,
-    element.open_issues_count, element.license, JSON.stringify(results));
+      element.updated_at, element.git_url, element.ssh_url, element.clone_url, element.language, element.watchers_count,
+      element.open_issues_count, element.license, JSON.stringify(results));
   }
     // add org to the org-database 
     await db.addOrg(org);
@@ -49,7 +49,7 @@ exports.webhookHandler = async (event, context)=>{
   const results = await repolinter.lintRepo(element.clone_url);
   //insert or update query
   await db.upsert(element.owner.login, element.id, element.name, element.full_name, element.owner, element.collaborators_url, element.teams_url,
-    element.created_at, element.updated_at, element.git_url, element.ssh_url, element.clone_url, element.language, element.watchers_count,
+    element.updated_at, element.git_url, element.ssh_url, element.clone_url, element.language, element.watchers_count,
     element.open_issues_count, element.license, JSON.stringify(results));
   let response = {
     'statusCode': 200,
