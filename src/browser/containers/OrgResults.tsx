@@ -25,7 +25,7 @@ export default class OrgResults extends React.Component<Props, State> {
   }
 
 public componentWillMount(){
- reqJSON('http://127.0.0.1:3000/orglist').then(data =>
+ reqJSON('/orglist').then(data =>
  	this.setState({
  		orgs: data.data
  	}));
@@ -51,7 +51,7 @@ public handleOrgChange = (e:any) =>{
 	this.setState({
 		currentorg: e.value
 	});
-	reqJSON('http://127.0.0.1:3000/orgresult/'+e.value).then(listObject =>
+	reqJSON('/orgresult/'+e.value).then(listObject =>
       this.setState({
       orgData: listObject.data,
     })

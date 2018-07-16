@@ -22,7 +22,7 @@ export default class Admin extends React.Component<Props, State> {
   }
 
 public componentWillMount(){
- reqJSON('http://127.0.0.1:3000/orglist').then(data =>
+ reqJSON('/orglist').then(data =>
  	this.setState({
  		orgs: data.data
  	}));
@@ -41,11 +41,11 @@ handleAddOrg=(e:any)=>{
 }
 
 handleRemoveRequest=()=>{
- //reqJSON('http://127.0.0.1:3000/removeorg/'+ this.state.removeOrg);
+ reqJSON('/removeorg/'+ this.state.removeOrg);
 }
 
 handleAddRequest=()=>{
- reqJSON('http://127.0.0.1:3000/addorg/'+ this.state.addOrg);
+ reqJSON('/addorg/'+ this.state.addOrg);
 }
 
 public render(){

@@ -5,7 +5,7 @@ const repolinter = require('./repolinter-runner');
 
  octokit.authenticate({
    type: 'oauth',
-   token: ''
+   token: process.env.GITHUB_TOKEN
  });
 
 async function paginateAndInsert (method, org) {
@@ -30,8 +30,8 @@ async function paginateAndInsert (method, org) {
 }
 
 exports.addNewOrg = async (event,context)=>{
-  process.env.PATH = process.env.LAMBDA_TASK_ROOT + "/bin/usr/bin:" + process.env.PATH;
-  process.env.GIT_EXEC_PATH = process.env.LAMBDA_TASK_ROOT + '/bin/usr/libexec/git-core';
+  process.env.PATH = process.env.LAMBDA_TASK_ROOT + "./tmp/bin/usr/bin:" + process.env.PATH;
+  process.env.GIT_EXEC_PATH = process.env.LAMBDA_TASK_ROOT + './tmp/bin/usr/libexec/git-core';
   await paginateAndInsert(octokit.repos.getForOrg, event.pathParameters.org);
 }
 
@@ -42,10 +42,11 @@ exports.removeExistingOrg = async (event,context)=>{
  
 exports.webhookHandler = async (event, context)=>{
   // setting up the env
-  process.env.PATH = process.env.LAMBDA_TASK_ROOT + "/bin/usr/bin:" + process.env.PATH;
-  process.env.GIT_EXEC_PATH = process.env.LAMBDA_TASK_ROOT + '/bin/usr/libexec/git-core';
+  process.env.PATH = process.env.LAMBDA_TASK_ROOT + "/tmp/bin/usr/bin:" + process.env.PATH;
+  process.env.GIT_EXEC_PATH = process.env.LAMBDA_TASK_ROOT + '/tmp/bin/usr/libexec/git-core';
   const eventData = JSON.parse(event.body);
   const element = eventData.repository;
+  console.log(element);
   const results = await repolinter.lintRepo(element.clone_url);
   //insert or update query
   await db.upsert(element.owner.login, element.id, element.name, element.full_name, element.owner, element.collaborators_url, element.teams_url,
