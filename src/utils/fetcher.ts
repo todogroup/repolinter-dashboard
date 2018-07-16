@@ -8,10 +8,14 @@ import 'whatwg-fetch';
 export async function reqJSON(
   url: string,
   obj?: any,
-  method = 'GET'
+  method?: string
 ): Promise<any> {
-  const body = obj !== undefined ? JSON.stringify(obj) : undefined;
-  const res = await fetch(url,{body});
+  const body = obj !== undefined ? obj : undefined;
+  const meth = method == undefined ? 'GET' : method;
+  const res = await fetch(process.env.REACT_APP_ENDPOINT + url,{
+    method: meth,
+    body: body
+  });
   // happy? return
   if (res.ok) {
     return res.json();

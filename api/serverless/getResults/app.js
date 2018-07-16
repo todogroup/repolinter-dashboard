@@ -31,8 +31,7 @@ exports.getOrgResult = async (event, context, callback) => {
             'headers': header,
             'body': JSON.stringify({
                 data: ret
-            }),
-            'method':'POST',
+            })
         }
         return response;
     }
@@ -50,8 +49,7 @@ exports.getOrgList = async (event, context, callback) => {
             'headers': header,
             'body': JSON.stringify({
                 data: ret
-            }),
-            'method':'POST',
+            })
         }
         return response;
     }
@@ -70,8 +68,7 @@ exports.getJsonSchema = async (event,context,callback)=>{
             'headers': header,
             'body': JSON.stringify({
                 data: obj
-            }),
-            'method':'POST',
+            })
         }
         return response;
     }

@@ -42,9 +42,9 @@ return new Promise(function(resolve,reject){
 }
  
 exports.lintRepo = async (event, context, callback) => {
-	process.env.PATH = process.env.LAMBDA_TASK_ROOT + "/bin/usr/bin:" + process.env.PATH;
-	process.env.GIT_EXEC_PATH = process.env.LAMBDA_TASK_ROOT + '/bin/usr/libexec/git-core';
-    const runningConfig = JSON.parse(event.pathParameters.object);
+	process.env.PATH = process.env.LAMBDA_TASK_ROOT + "/tmp/bin/usr/bin:" + process.env.PATH;
+	process.env.GIT_EXEC_PATH = process.env.LAMBDA_TASK_ROOT + '/tmp/bin/usr/libexec/git-core';
+    const runningConfig = JSON.parse(event.body);
     try {
         const ret = await runRepolinter(decodeURI(runningConfig.git_link.replace(/([%])/g, "/")), runningConfig.ruleSet);
         let response = {
@@ -55,8 +55,7 @@ exports.lintRepo = async (event, context, callback) => {
             },
             'body': JSON.stringify({
                 data: ret
-            }),
-            'method':'POST',
+            })
         }
         return response;
     }

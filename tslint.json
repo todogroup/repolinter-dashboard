@@ -2,6 +2,7 @@
   "extends": ["tslint:recommended", "tslint-react", "tslint-config-prettier"],
   "linterOptions": {
     "exclude": [
+      "api/**/*.js",
       "src/**/*.tsx",
       "src/**/*.js",
       "src/**/*.ts",

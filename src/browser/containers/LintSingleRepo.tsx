@@ -1,6 +1,6 @@
 import * as React from 'react';
 import AceEditor from 'react-ace';
-import { reqJSON } from '../../utils/fetcher';
+import { reqJSON, postJSON } from '../../utils/fetcher';
 
 import ResultViewer from '../components/resultviewer';
 
@@ -52,14 +52,14 @@ public handleScan=(e:any)=>{
   }
 
   params = JSON.stringify(params);
-  reqJSON('http://127.0.0.1:3000/scan/'+params).then(scanResult => 
+  postJSON('/scan', params).then(scanResult => 
     this.setState({
       scanData: scanResult
   })); 
 }
 
 public componentWillMount(){
- reqJSON('http://127.0.0.1:3000/jsonSchema').then(data => {
+ reqJSON('/jsonSchema').then(data => {
       this.setState({
         jsonSchema: data.data,
       })
