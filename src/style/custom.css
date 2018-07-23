@@ -3,53 +3,53 @@
 }
 
 .container.padding-top {
-    padding-top: 2%;
+  padding-top: 2%;
 }
 
-.padding-sides{
-	padding-left: 5%;
-	padding-right: 5%;
+.padding-sides {
+  padding-left: 5%;
+  padding-right: 5%;
 }
 
-.padding-top{
-	padding-top: 1%;
+.padding-top {
+  padding-top: 1%;
 }
 
 .center-div {
-    margin: 10%;
-    width: 50%;
-    padding-top: 20%;
+  margin: 10%;
+  width: 50%;
+  padding-top: 20%;
 }
 
-.li-font{
-	font-size: 12px;
+.li-font {
+  font-size: 12px;
 }
 
-.green{
-	color: #97CD34; 
+.green {
+  color: #97cd34;
 }
 
-.yellow{
-	color: #FFD036;
+.yellow {
+  color: #ffd036;
 }
 
-.hr{
-   background-color:#C80000;
-   color:#C80000;
-   -webkit-transform:rotate(90deg);
-   position:absolute;
-   left:130px;
-   border:2px;
- }
+.hr {
+  background-color: #c80000;
+  color: #c80000;
+  -webkit-transform: rotate(90deg);
+  position: absolute;
+  left: 130px;
+  border: 2px;
+}
 
- .line {
-    position: absolute;
-    left: 49%;
-    top: 0;
-    bottom: 0;
-    width: 1px;
-    background: #ccc;
-    z-index: 1;
+.line {
+  position: absolute;
+  left: 49%;
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  background: #ccc;
+  z-index: 1;
 }
 
 .fancy {
@@ -59,6 +59,6 @@
   margin-bottom: 15px;
 }
 
-.flex{
+.flex {
   flex: auto;
 }

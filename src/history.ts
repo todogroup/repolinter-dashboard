@@ -17,4 +17,3 @@ import createBrowserHistory from 'history/createBrowserHistory';
 // manually export our own history to make navigation outside react (i.e., in
 // redux actions) easier.
 export default createBrowserHistory();
-
