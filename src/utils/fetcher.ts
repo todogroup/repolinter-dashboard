@@ -1,4 +1,3 @@
-
 import 'whatwg-fetch';
 /**
  * Convenience function for sending/receiving JSON for API calls.
@@ -12,9 +11,9 @@ export async function reqJSON(
 ): Promise<any> {
   const body = obj !== undefined ? obj : undefined;
   const meth = method == undefined ? 'GET' : method;
-  const res = await fetch(process.env.REACT_APP_ENDPOINT + url,{
+  const res = await fetch(process.env.REACT_APP_ENDPOINT + url, {
     method: meth,
-    body: body
+    body,
   });
   // happy? return
   if (res.ok) {

@@ -18,6 +18,7 @@
   },
   "jsRules": {
     "no-console": false,
-    "no-empty": false
+    "no-empty": false,
+    "object-literal-sort-keys": false
   }
 }
