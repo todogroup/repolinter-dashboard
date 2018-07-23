@@ -1,13 +1,23 @@
 {
+  "defaultSeverity": "warn",
   "extends": ["tslint:recommended", "tslint-react", "tslint-config-prettier"],
   "linterOptions": {
     "exclude": [
-      "api/**/*.js",
-      "src/**/*.tsx",
-      "src/**/*.js",
-      "src/**/*.ts",
-      "config/**/*.js",
       "node_modules/**/*.ts"
     ]
+  },
+  "rules": {
+    "interface-name": false,
+    "member-access": false,
+    "no-console": false,
+    "no-empty": false,
+    "no-empty-interface": false,
+    "no-unused-expression": false,
+    "object-literal-sort-keys": false,
+    "triple-equals": [true, "allow-undefined-check", "allow-null-check"]
+  },
+  "jsRules": {
+    "no-console": false,
+    "no-empty": false
   }
 }
