@@ -1,15 +1,23 @@
 AWSTemplateFormatVersion : '2010-09-09'
 Transform: AWS::Serverless-2016-10-31
-Description: Serverless function mapping/config
+Description: A dashboard for RepoLinter
+
+Parameters:
+  DatabasePassword:
+    Description: Password for the in-VPC database
+    Type: String
 
 Resources:
+
+  ### Lambda functions ###
+
   getOrgResultFunction:
     Type: AWS::Serverless::Function
     Properties:
       Handler: app.getOrgResult
+      Role: !GetAtt [ DefaultLambdaRole, Arn ]
       Runtime: nodejs8.10
       CodeUri: serverless/getResults/
-      Policies: PostgresReadOnly
       Events:
         GetResource:
           Type: Api
@@ -21,9 +29,9 @@ Resources:
     Type: AWS::Serverless::Function
     Properties:
       Handler: app.getOrgList
+      Role: !GetAtt [ DefaultLambdaRole, Arn ]
       Runtime: nodejs8.10
       CodeUri: serverless/getResults/
-      Policies: PostgresReadOnly
       Events:
         GetResource:
           Type: Api
@@ -35,9 +43,9 @@ Resources:
     Type: AWS::Serverless::Function
     Properties:
       Handler: app.getJsonSchema
+      Role: !GetAtt [ DefaultLambdaRole, Arn ]
       Runtime: nodejs8.10
       CodeUri: serverless/getResults/
-      Policies: PostgresReadOnly
       Events:
         GetResource:
           Type: Api
@@ -49,6 +57,7 @@ Resources:
     Type: AWS::Serverless::Function
     Properties:
       Handler: app.lintRepo
+      Role: !GetAtt [ DefaultLambdaRole, Arn ]
       Runtime: nodejs8.10
       CodeUri: serverless/getRepolinterResult/
       MemorySize: 2048
@@ -57,13 +66,14 @@ Resources:
         GetResource:
           Type: Api
           Properties:
-            Path: /scan
-            Method: post
+            Path: /scan/{object}
+            Method: get
 
   addOrg:
     Type: AWS::Serverless::Function
     Properties:
       Handler: app.addNewOrg
+      Role: !GetAtt [ DefaultLambdaRole, Arn ]
       Runtime: nodejs8.10
       CodeUri: serverless/githubUtils/
       MemorySize: 2048
@@ -75,11 +85,11 @@ Resources:
             Path: /addorg/{org}
             Method: get
 
-
   removeOrg:
     Type: AWS::Serverless::Function
     Properties:
       Handler: app.removeExistingOrg
+      Role: !GetAtt [ DefaultLambdaRole, Arn ]
       Runtime: nodejs8.10
       CodeUri: serverless/githubUtils/
       Events:
@@ -93,6 +103,7 @@ Resources:
     Type: AWS::Serverless::Function
     Properties:
       Handler: app.webhookHandler
+      Role: !GetAtt [ DefaultLambdaRole, Arn ]
       Runtime: nodejs8.10
       CodeUri: serverless/githubUtils/
       MemorySize: 2048
@@ -103,4 +114,241 @@ Resources:
           Properties:
             Path: /hooks
             Method: post
-                
+
+  ### Roles ###
+  DefaultLambdaRole:
+    Type: 'AWS::IAM::Role'
+    Properties:
+      ManagedPolicyArns:
+      - 'arn:aws:iam::aws:policy/service-role/AWSLambdaRole'
+      - 'arn:aws:iam::aws:policy/service-role/AWSLambdaVPCAccessExecutionRole'
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: lambda.amazonaws.com
+            Action: "sts:AssumeRole"
+
+  ### Infrastructure ###
+
+  RepoLinterVPC:
+    Type: 'AWS::EC2::VPC'
+    Properties:
+      CidrBlock: 10.8.0.0/16
+      Tags:
+      - Key: Name
+        Value: dashboard-for-repolinter
+    Metadata:
+      'AWS::CloudFormation::Designer':
+        id: 9cc2b196-4b84-4bae-90f8-9487ba463385
+  Gateway:
+    Type: 'AWS::EC2::InternetGateway'
+    Properties: {}
+    Metadata:
+      'AWS::CloudFormation::Designer':
+        id: e0b397a9-894f-4036-8b57-66baa7ff3086
+  Subnet2a:
+    Type: 'AWS::EC2::Subnet'
+    Properties:
+      VpcId: !Ref RepoLinterVPC
+      CidrBlock: 10.8.1.0/24
+      AvailabilityZone: us-west-2a
+    Metadata:
+      'AWS::CloudFormation::Designer':
+        id: df1c5ab0-3553-4a63-936c-076116f179ab
+  Subnet2b:
+    Type: 'AWS::EC2::Subnet'
+    Properties:
+      VpcId: !Ref RepoLinterVPC
+      CidrBlock: 10.8.2.0/24
+      AvailabilityZone: us-west-2b
+    Metadata:
+      'AWS::CloudFormation::Designer':
+        id: d82b2bfe-e610-401d-908f-37b65784c17d
+  DBSubnet:
+    Type: 'AWS::RDS::DBSubnetGroup'
+    Properties:
+      DBSubnetGroupDescription: dashboard-for-repolinter subnet
+      SubnetIds:
+        - !Ref Subnet2a
+        - !Ref Subnet2b
+    Metadata:
+      'AWS::CloudFormation::Designer':
+        id: 3c4a0c87-4f2b-44c9-83a6-f3241d668b49
+  EC2VPCG5A8I3:
+    Type: 'AWS::EC2::VPCGatewayAttachment'
+    Properties:
+      VpcId: !Ref RepoLinterVPC
+      InternetGatewayId: !Ref Gateway
+    Metadata:
+      'AWS::CloudFormation::Designer':
+        id: 1a594f0e-d3a3-4b1f-8e03-1ddefbb96c95
+  DashboardDatabase:
+    Type: 'AWS::RDS::DBInstance'
+    Properties:
+      AllocatedStorage: 6
+      DBInstanceClass: db.t2.micro
+      DBInstanceIdentifier: !Sub '${AWS::StackName}-dashboard-for-repolinter'
+      DBName: repolinter
+      DBSubnetGroupName: !Ref DBSubnet
+      Engine: postgres
+      EngineVersion: 10
+      MasterUsername: repolinter
+      MasterUserPassword: !Ref DatabasePassword
+    Metadata:
+      'AWS::CloudFormation::Designer':
+        id: 5192b113-f5c9-499c-8f55-306c4c11236c
+  RouteTable:
+    Type: 'AWS::EC2::RouteTable'
+    Properties:
+      VpcId: !Ref RepoLinterVPC
+    Metadata:
+      'AWS::CloudFormation::Designer':
+        id: 5da2b65f-a079-438d-a481-8e3aebf23da3
+  InternetRoute:
+    Type: 'AWS::EC2::Route'
+    Properties:
+      DestinationCidrBlock: 0.0.0.0/0
+      RouteTableId: !Ref RouteTable
+      GatewayId: !Ref Gateway
+    Metadata:
+      'AWS::CloudFormation::Designer':
+        id: aa4fb328-86a5-4eef-8de9-f369836d2f99
+  EC2SRTA4BWPL:
+    Type: 'AWS::EC2::SubnetRouteTableAssociation'
+    Properties:
+      SubnetId: !Ref Subnet2b
+      RouteTableId: !Ref RouteTable
+    Metadata:
+      'AWS::CloudFormation::Designer':
+        id: 595a6836-6eef-4fac-aabc-ecc8f23b4ca1
+  EC2SRTA3BGT6:
+    Type: 'AWS::EC2::SubnetRouteTableAssociation'
+    Properties:
+      SubnetId: !Ref Subnet2a
+      RouteTableId: !Ref RouteTable
+    Metadata:
+      'AWS::CloudFormation::Designer':
+        id: 15760cee-6912-4ccd-ad64-b43169219d2d
+
+
+Metadata:
+  'AWS::CloudFormation::Designer':
+    9cc2b196-4b84-4bae-90f8-9487ba463385:
+      size:
+        width: 540
+        height: 240
+      position:
+        x: 170
+        'y': 260
+      z: 0
+      embeds:
+        - d82b2bfe-e610-401d-908f-37b65784c17d
+        - 5da2b65f-a079-438d-a481-8e3aebf23da3
+        - df1c5ab0-3553-4a63-936c-076116f179ab
+        - 3c4a0c87-4f2b-44c9-83a6-f3241d668b49
+    e0b397a9-894f-4036-8b57-66baa7ff3086:
+      size:
+        width: 60
+        height: 60
+      position:
+        x: 80
+        'y': 330
+      z: 0
+      embeds: []
+    df1c5ab0-3553-4a63-936c-076116f179ab:
+      size:
+        width: 140
+        height: 80
+      position:
+        x: 340
+        'y': 280
+      z: 1
+      parent: 9cc2b196-4b84-4bae-90f8-9487ba463385
+      embeds: []
+      iscontainedinside:
+        - 9cc2b196-4b84-4bae-90f8-9487ba463385
+    3c4a0c87-4f2b-44c9-83a6-f3241d668b49:
+      size:
+        width: 150
+        height: 170
+      position:
+        x: 530
+        'y': 280
+      z: 1
+      parent: 9cc2b196-4b84-4bae-90f8-9487ba463385
+      embeds:
+        - 5192b113-f5c9-499c-8f55-306c4c11236c
+      iscontainedinside:
+        - df1c5ab0-3553-4a63-936c-076116f179ab
+        - d82b2bfe-e610-401d-908f-37b65784c17d
+    1a594f0e-d3a3-4b1f-8e03-1ddefbb96c95:
+      source:
+        id: 9cc2b196-4b84-4bae-90f8-9487ba463385
+      target:
+        id: e0b397a9-894f-4036-8b57-66baa7ff3086
+      z: 0
+    5192b113-f5c9-499c-8f55-306c4c11236c:
+      size:
+        width: 60
+        height: 60
+      position:
+        x: 550
+        'y': 310
+      z: 2
+      parent: 3c4a0c87-4f2b-44c9-83a6-f3241d668b49
+      embeds: []
+      iscontainedinside:
+        - 3c4a0c87-4f2b-44c9-83a6-f3241d668b49
+    5da2b65f-a079-438d-a481-8e3aebf23da3:
+      size:
+        width: 110
+        height: 120
+      position:
+        x: 190
+        'y': 300
+      z: 1
+      parent: 9cc2b196-4b84-4bae-90f8-9487ba463385
+      embeds:
+        - aa4fb328-86a5-4eef-8de9-f369836d2f99
+      iscontainedinside:
+        - 9cc2b196-4b84-4bae-90f8-9487ba463385
+    aa4fb328-86a5-4eef-8de9-f369836d2f99:
+      size:
+        width: 60
+        height: 60
+      position:
+        x: 210
+        'y': 330
+      z: 2
+      parent: 5da2b65f-a079-438d-a481-8e3aebf23da3
+      embeds: []
+      isassociatedwith:
+        - e0b397a9-894f-4036-8b57-66baa7ff3086
+      iscontainedinside:
+        - 5da2b65f-a079-438d-a481-8e3aebf23da3
+    d82b2bfe-e610-401d-908f-37b65784c17d:
+      size:
+        width: 140
+        height: 80
+      position:
+        x: 340
+        'y': 370
+      z: 1
+      parent: 9cc2b196-4b84-4bae-90f8-9487ba463385
+      embeds: []
+      iscontainedinside:
+        - 9cc2b196-4b84-4bae-90f8-9487ba463385
+    595a6836-6eef-4fac-aabc-ecc8f23b4ca1:
+      source:
+        id: 5da2b65f-a079-438d-a481-8e3aebf23da3
+      target:
+        id: d82b2bfe-e610-401d-908f-37b65784c17d
+      z: 1
+    15760cee-6912-4ccd-ad64-b43169219d2d:
+      source:
+        id: 5da2b65f-a079-438d-a481-8e3aebf23da3
+      target:
+        id: df1c5ab0-3553-4a63-936c-076116f179ab
+      z: 1
