@@ -74,9 +74,7 @@ Resources:
           Properties:
             Path: /addorg/{org}
             Method: get
-            parameters:
-              paths:
-                object: true
+
 
   removeOrg:
     Type: AWS::Serverless::Function
@@ -90,9 +88,6 @@ Resources:
           Properties:
             Path: /removeorg/{org}
             Method: get
-            parameters:
-              paths:
-                object: true
 
   orgHooks:
     Type: AWS::Serverless::Function
@@ -108,7 +103,4 @@ Resources:
           Properties:
             Path: /hooks
             Method: post
-            parameters:
-              paths:
-                object: true
                 
