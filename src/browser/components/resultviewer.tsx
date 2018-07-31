@@ -44,7 +44,9 @@ export default class ResultViewer extends React.Component<Props, State> {
             {this.getFaIcon(singleResult.passed)}
             <li className="list-group-item li-font" key={singleResult.message}>
               {' Test Type:' + singleResult.rule.id}
-              &emsp;<strong>|</strong>&emsp; {singleResult.message}
+              &emsp;
+              <strong>|</strong>
+              &emsp; {singleResult.message}
             </li>
           </div>
         );
@@ -54,7 +56,9 @@ export default class ResultViewer extends React.Component<Props, State> {
             {this.getFaIcon(element.passed)}
             <li className="list-group-item li-font" key={element.message}>
               {' Test Type:' + element.rule.id}
-              &emsp;<strong>|</strong>&emsp; {element.message}
+              &emsp;
+              <strong>|</strong>
+              &emsp; {element.message}
             </li>
           </div>
         );

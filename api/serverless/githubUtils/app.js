@@ -65,7 +65,6 @@ exports.webhookHandler = async (event, context) => {
     process.env.LAMBDA_TASK_ROOT + '/tmp/bin/usr/libexec/git-core';
   const eventData = JSON.parse(event.body);
   const element = eventData.repository;
-  console.log(element);
   const results = await repolinter.lintRepo(element.clone_url);
   //insert or update query
   await db.upsert(

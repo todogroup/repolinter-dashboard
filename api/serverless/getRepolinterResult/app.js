@@ -62,7 +62,7 @@ exports.lintRepo = async (event, context, callback) => {
     return response;
   } catch (err) {
     callback(err, null);
+    return;
   }
   callback(null, response);
-  return;
 };
