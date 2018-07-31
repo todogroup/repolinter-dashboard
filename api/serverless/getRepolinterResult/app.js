@@ -45,10 +45,10 @@ exports.lintRepo = async (event, context, callback) => {
   const runningConfig = JSON.parse(event.body);
   try {
     const ret = await runRepolinter(
-      decodeURI(runningConfig.git_link.replace(/([%])/g, '/')),
+      runningConfig.git_link,
       runningConfig.ruleSet
     );
-    let response = {
+    const response = {
       statusCode: 200,
       headers: {
         'Access-Control-Allow-Methods':
@@ -64,4 +64,5 @@ exports.lintRepo = async (event, context, callback) => {
     callback(err, null);
   }
   callback(null, response);
+  return;
 };

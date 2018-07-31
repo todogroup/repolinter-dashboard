@@ -39,12 +39,12 @@ export default class LintSingleRepo extends React.Component<Props, State> {
     let params = null;
     if (this.state.ruleSetType === 'custom') {
       params = {
-        git_link: this.state.git_link.replace(/([/])/g, '%'),
+        git_link: this.state.git_link,
         ruleSet: JSON.parse(this.state.jsonSchema),
       };
     } else {
       params = {
-        git_link: this.state.git_link.replace(/([/])/g, '%'),
+        git_link: this.state.git_link,
         ruleSet: null,
       };
     }

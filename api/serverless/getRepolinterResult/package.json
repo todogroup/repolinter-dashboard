@@ -9,7 +9,6 @@
   "author": "abhaydee",
   "license": "Apache-2.0",
   "dependencies": {
-    "dotenv": "^6.0.0",
     "path": "^0.12.7",
     "pg-promise": "^8.4.5",
     "repolinter": "github:todogroup/repolinter",
