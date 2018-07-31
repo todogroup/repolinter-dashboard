@@ -39,9 +39,9 @@ exports.getOrgResult = async (event, context, callback) => {
     return response;
   } catch (err) {
     callback(err, null);
+    return;
   }
   callback(null, response);
-  return;
 };
 
 exports.getOrgList = async (event, context, callback) => {
@@ -57,9 +57,9 @@ exports.getOrgList = async (event, context, callback) => {
     return response;
   } catch (err) {
     callback(err, null);
+    return;
   }
   callback(null, response);
-  return;
 };
 
 exports.getJsonSchema = async (event, context, callback) => {
@@ -76,7 +76,7 @@ exports.getJsonSchema = async (event, context, callback) => {
     return response;
   } catch (err) {
     callback(err, null);
+    return;
   }
   callback(null, response);
-  return;
 };
