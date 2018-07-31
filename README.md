@@ -8,7 +8,7 @@ Dashboard for RepoLinter is a website to lint open source repositories for commo
 2. Install [Sam Cli](https://docs.aws.amazon.com/lambda/latest/dg/sam-cli-requirements.html) via `pip install aws-sam-cli`.
 3. Clone this repository and cd into the api directory and run `sam local start-api`. This will let you run & test all the lambda functions locally.
 4. Run `npm install`.
-5. For running the static website part run `REACT_APP_ENDPOINT = "http://localhost:3000" & npm start`. Note this command may vary depending upon your shell type.
+5. For running the static website part run ``REACT_APP_ENDPOINT="http://localhost:3000"  npm start``. Note this command may vary depending upon your shell type.
 6. Navigate to http://0.0.0.0:3001/ via your preferred browser.
 7. Happy linting.
 
@@ -44,15 +44,20 @@ organisational level. setup webhooks to `YOUR_SERVERLESS_ENDPOINT\hooks`. For mo
 
 Setting up a production server in two easy steps:
 
-1. Deploy your lambda functions using `sam deploy \
+1. Deploy your lambda functions using 
+```
+sam deploy \
    --template-file template.yaml \
    --stack-name <new-stack-name> \
-   --capabilities CAPABILITY_IAM`. For more info on deployment using sam click [link](https://docs.aws.amazon.com/lambda/latest/dg/deploying-lambda-apps.html).
+   --capabilities CAPABILITY_IAM
+   ```
+   For more info on deployment using sam click [link](https://docs.aws.amazon.com/lambda/latest/dg/deploying-lambda-apps.html).
+
 2. Deploy the static website with env variable set to your Aws Api Gateway endpoint for the above lambda functions.
 
 ## Custom Ruleset
-You can define your own linting rules. Here's how you create new rules.
-<br/> <h3>[Rules](https://github.com/todogroup/repolinter#rules)</h3><br/>
+You can define your own linting rules. Here's how you create new rules.  
+### [Rules](https://github.com/todogroup/repolinter#rules)   
 # ![Custom Linter Rules](public/customRuleset.png)
 
 
