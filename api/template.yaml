@@ -7,6 +7,11 @@ Parameters:
     Description: Password for the in-VPC database
     Type: String
 
+Outputs:
+  ApiGatewayEndpoint:
+    Description: API Gateway endpoint URI, for use when building static website
+    Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod"
+
 Resources:
 
   ### Lambda functions ###
@@ -46,6 +51,11 @@ Resources:
       Role: !GetAtt [ DefaultLambdaRole, Arn ]
       Runtime: nodejs8.10
       CodeUri: serverless/getResults/
+      Environment:
+        Variables:
+          DB_HOST: !GetAtt [ DashboardDatabase, Endpoint.Address ]
+          DB_USERNAME: repoLinter
+          DB_PASSWORD: !Ref DatabasePassword
       Events:
         GetResource:
           Type: Api
@@ -190,11 +200,11 @@ Resources:
       AllocatedStorage: 6
       DBInstanceClass: db.t2.micro
       DBInstanceIdentifier: !Sub '${AWS::StackName}-dashboard-for-repolinter'
-      DBName: repolinter
+      DBName: repoLinter
       DBSubnetGroupName: !Ref DBSubnet
       Engine: postgres
       EngineVersion: 10
-      MasterUsername: repolinter
+      MasterUsername: repoLinter
       MasterUserPassword: !Ref DatabasePassword
     Metadata:
       'AWS::CloudFormation::Designer':
