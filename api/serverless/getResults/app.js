@@ -11,7 +11,8 @@ const header = {
 function connect() {
   const pgp = pgPromise({});
   let configuration = config.config;
-  pg = pgp({
+  console.log(configuration);
+  return pgp({
     host: configuration.database.host,
     port: configuration.database.port,
     database: configuration.database.database,
@@ -19,7 +20,6 @@ function connect() {
     password: configuration.database.password,
     ssl: configuration.database.ssl,
   });
-  return pg;
 }
 
 exports.getOrgResult = async (event, context, callback) => {

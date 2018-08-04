@@ -76,8 +76,8 @@ Resources:
         GetResource:
           Type: Api
           Properties:
-            Path: /scan/{object}
-            Method: get
+            Path: /scan
+            Method: post
 
   addOrg:
     Type: AWS::Serverless::Function
