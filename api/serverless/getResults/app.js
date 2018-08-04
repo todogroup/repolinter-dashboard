@@ -11,7 +11,6 @@ const header = {
 function connect() {
   const pgp = pgPromise({});
   let configuration = config.config;
-  console.log(configuration);
   return pgp({
     host: configuration.database.host,
     port: configuration.database.port,
