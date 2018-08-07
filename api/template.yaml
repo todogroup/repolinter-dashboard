@@ -6,6 +6,12 @@ Parameters:
   DatabasePassword:
     Description: Password for the in-VPC database
     Type: String
+  S3BucketNameWebsite:
+    Description: Bucket name for static website
+    Type: String
+  GithubToken:
+    Description: Github token for octokit
+    Type: String
 
 Outputs:
   ApiGatewayEndpoint:
@@ -23,6 +29,11 @@ Resources:
       Role: !GetAtt [ DefaultLambdaRole, Arn ]
       Runtime: nodejs8.10
       CodeUri: serverless/getResults/
+      Environment:
+        Variables:
+          DB_HOST: !GetAtt [ DashboardDatabase, Endpoint.Address ]
+          DB_USERNAME: repoLinter
+          DB_PASSWORD: !Ref DatabasePassword
       Events:
         GetResource:
           Type: Api
@@ -37,6 +48,11 @@ Resources:
       Role: !GetAtt [ DefaultLambdaRole, Arn ]
       Runtime: nodejs8.10
       CodeUri: serverless/getResults/
+      Environment:
+        Variables:
+          DB_HOST: !GetAtt [ DashboardDatabase, Endpoint.Address ]
+          DB_USERNAME: repoLinter
+          DB_PASSWORD: !Ref DatabasePassword
       Events:
         GetResource:
           Type: Api
@@ -51,11 +67,6 @@ Resources:
       Role: !GetAtt [ DefaultLambdaRole, Arn ]
       Runtime: nodejs8.10
       CodeUri: serverless/getResults/
-      Environment:
-        Variables:
-          DB_HOST: !GetAtt [ DashboardDatabase, Endpoint.Address ]
-          DB_USERNAME: repoLinter
-          DB_PASSWORD: !Ref DatabasePassword
       Events:
         GetResource:
           Type: Api
@@ -88,6 +99,12 @@ Resources:
       CodeUri: serverless/githubUtils/
       MemorySize: 2048
       Timeout: 150
+      Environment:
+        Variables:
+          DB_HOST: !GetAtt [ DashboardDatabase, Endpoint.Address ]
+          DB_USERNAME: repoLinter
+          DB_PASSWORD: !Ref DatabasePassword
+          GITHUB_TOKEN: !Ref GithubToken
       Events:
         GetResource:
           Type: Api
@@ -102,6 +119,11 @@ Resources:
       Role: !GetAtt [ DefaultLambdaRole, Arn ]
       Runtime: nodejs8.10
       CodeUri: serverless/githubUtils/
+      Environment:
+        Variables:
+          DB_HOST: !GetAtt [ DashboardDatabase, Endpoint.Address ]
+          DB_USERNAME: repoLinter
+          DB_PASSWORD: !Ref DatabasePassword
       Events:
         GetResource:
           Type: Api
@@ -118,6 +140,11 @@ Resources:
       CodeUri: serverless/githubUtils/
       MemorySize: 2048
       Timeout: 150
+      Environment:
+        Variables:
+          DB_HOST: !GetAtt [ DashboardDatabase, Endpoint.Address ]
+          DB_USERNAME: repoLinter
+          DB_PASSWORD: !Ref DatabasePassword
       Events:
         GetResource:
           Type: Api
@@ -141,7 +168,10 @@ Resources:
             Action: "sts:AssumeRole"
 
   ### Infrastructure ###
-
+  S3Bucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: !Ref S3BucketNameWebsite
   RepoLinterVPC:
     Type: 'AWS::EC2::VPC'
     Properties:

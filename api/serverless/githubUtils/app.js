@@ -3,11 +3,6 @@ const octokit = require('@octokit/rest')();
 const db = require('./db');
 const repolinter = require('./repolinter-runner');
 
-octokit.authenticate({
-  type: 'oauth',
-  token: process.env.GITHUB_TOKEN,
-});
-
 async function paginateAndInsert(method, org) {
   let response = await method({
     org: org,
@@ -45,10 +40,14 @@ async function paginateAndInsert(method, org) {
 }
 
 exports.addNewOrg = async (event, context) => {
+  octokit.authenticate({
+    type: 'oauth',
+    token: process.env.GITHUB_TOKEN,
+  });
   process.env.PATH =
-    process.env.LAMBDA_TASK_ROOT + './tmp/bin/usr/bin:' + process.env.PATH;
+    process.env.LAMBDA_TASK_ROOT + '/tmp/bin/usr/bin:' + process.env.PATH;
   process.env.GIT_EXEC_PATH =
-    process.env.LAMBDA_TASK_ROOT + './tmp/bin/usr/libexec/git-core';
+    process.env.LAMBDA_TASK_ROOT + '/tmp/bin/usr/libexec/git-core';
   await paginateAndInsert(octokit.repos.getForOrg, event.pathParameters.org);
 };
 
