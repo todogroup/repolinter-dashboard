@@ -3,7 +3,7 @@ require('dotenv').config();
 let config = {};
 config.database = {
   host: process.env.DB_HOST,
-  port: 8200,
+  port: 5432,
   database: 'repoLinter',
   user: process.env.DB_USERNAME,
   password: process.env.DB_PASSWORD,
