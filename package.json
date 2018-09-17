@@ -4,30 +4,31 @@
   "private": true,
   "dependencies": {
     "@types/jsonfile": "^4.0.1",
-    "@types/materialize-css": "^1.0.3",
-    "@types/react-bootstrap": "^0.32.9",
-    "@types/react-modal": "^3.2.0",
-    "@types/react-router-dom": "^4.2.7",
-    "@types/react-select": "^1.2.7",
-    "@types/react-table": "^6.7.11",
-    "bootstrap": "^4.1.1",
+    "@types/materialize-css": "^1.0.4",
+    "@types/react-bootstrap": "^0.32.11",
+    "@types/react-modal": "^3.2.1",
+    "@types/react-router-dom": "^4.3.0",
+    "@types/react-select": "^1.3.4",
+    "@types/react-table": "^6.7.12",
+    "bootstrap": "^4.1.3",
     "brace": "^0.11.1",
     "font-awesome": "^4.7.0",
     "jsonfile": "^4.0.0",
     "materialize-css": "^0.100.2",
-    "react": "^16.4.0",
-    "react-ace": "^6.1.1",
+    "react": "^16.4.2",
+    "react-ace": "^6.1.4",
     "react-bootstrap": "^0.32.1",
-    "react-dom": "^16.4.0",
-    "react-materialize": "^2.2.1",
+    "react-bootstrap-sweetalert": "^4.4.1",
+    "react-dom": "^16.4.2",
+    "react-materialize": "^2.4.2",
     "react-modal": "^3.5.1",
     "react-router-dom": "^4.3.1",
     "react-scripts-ts": "2.16.0",
-    "react-select": "^1.2.1",
+    "react-select": "^1.3.0",
     "react-spinners": "^0.3.2",
     "react-table": "^6.8.6",
     "repolinter": "github:todogroup/repolinter",
-    "tslint": "^5.10.0"
+    "tslint": "^5.11.0"
   },
   "scripts": {
     "start": "react-scripts-ts start",
@@ -37,10 +38,10 @@
     "lint": "prettier '**/*.{js,ts,tsx,css}' --write && tslint --fix --format stylish -p ."
   },
   "devDependencies": {
-    "@types/jest": "^23.0.1",
-    "@types/node": "^10.3.2",
-    "@types/react": "^16.3.17",
-    "@types/react-dom": "^16.0.6",
-    "typescript": "^2.9.1"
+    "@types/jest": "^23.3.1",
+    "@types/node": "^10.7.1",
+    "@types/react": "^16.4.11",
+    "@types/react-dom": "^16.0.7",
+    "typescript": "^2.9.2"
   }
 }

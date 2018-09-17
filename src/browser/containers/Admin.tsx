@@ -1,4 +1,5 @@
 import * as React from 'react';
+import SweetAlert from 'react-bootstrap-sweetalert';
 import Select from 'react-select';
 import { reqJSON } from '../../utils/fetcher';
 
@@ -8,6 +9,7 @@ interface State {
   orgs: any;
   removeOrg: string;
   addOrg: string;
+  alert: any;
 }
 
 export default class Admin extends React.Component<Props, State> {
@@ -17,6 +19,7 @@ export default class Admin extends React.Component<Props, State> {
       orgs: [],
       removeOrg: '',
       addOrg: '',
+      alert: null,
     };
   }
 
@@ -39,13 +42,54 @@ export default class Admin extends React.Component<Props, State> {
       addOrg: e.target.value,
     });
   };
+  handleRemoveRequestExecute = () => {
+    reqJSON('/removeorg/' + this.state.removeOrg);
+    this.hideAlert();
+    // resetting input value
+    this.setState({
+      removeOrg: '',
+    });
+  };
 
   handleRemoveRequest = () => {
-    reqJSON('/removeorg/' + this.state.removeOrg);
+    const removeAlert = () => (
+      <SweetAlert
+        warning={true}
+        showCancel={true}
+        confirmBtnText="Confirm"
+        confirmBtnBsStyle="danger"
+        cancelBtnBsStyle="default"
+        title={<strong>this.state.removeOrg</strong> + ' will be removed'}
+        onConfirm={() => this.handleRemoveRequestExecute()}
+        onCancel={() => this.hideAlert()}
+      >
+        This org will be removed!
+      </SweetAlert>
+    );
+    this.setState({
+      alert: removeAlert(),
+    });
+  };
+  hideAlert = () => {
+    this.setState({
+      alert: null,
+    });
   };
 
   handleAddRequest = () => {
     reqJSON('/addorg/' + this.state.addOrg);
+    const addAlert = () => (
+      <SweetAlert
+        success={true}
+        title="Success"
+        onConfirm={() => this.hideAlert()}
+      >
+        {this.state.addOrg} added.
+      </SweetAlert>
+    );
+    this.setState({
+      alert: addAlert(),
+    });
   };
 
   public render() {
@@ -56,7 +100,7 @@ export default class Admin extends React.Component<Props, State> {
           <input
             type="text"
             className="form-control"
-            placeholder="Org Url"
+            placeholder="Org Name"
             onChange={this.handleAddOrg}
             required={true}
           />
@@ -96,6 +140,7 @@ export default class Admin extends React.Component<Props, State> {
             </button>
           </div>
         </div>
+        {this.state.alert}
       </div>
     );
   }

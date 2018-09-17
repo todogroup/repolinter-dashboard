@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { Link, Route, Router, Switch } from 'react-router-dom';
 import '../node_modules/bootstrap/dist/css/bootstrap.css';
+import '../node_modules/react-bootstrap-sweetalert/lib/css/animations.css';
 import history from './history';
 import logo from './logo.png';
 import './style/custom.css';
